@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <body class="app sidebar-mini">
+    <!-- Navbar -->
+    <header class="app-header"><a class="app-header__logo" href="/">Procost</a>
+        <a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+        <!-- Navbar Right Menu-->
+        <ul class="app-nav">
+            <li class="app-search">
+                <a href="login.html" class="btn btn-info">Se déconnecter</a>
+            </li>
+        </ul>
+    </header>
+    <!-- Sidebar menu-->
+    <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+    <aside class="app-sidebar">
+        <div class="app-sidebar__user">
+            <img class="app-sidebar__user-avatar" src="img/user.jpg" alt="User Image">
+            <div>
+                <p class="app-sidebar__user-name">John Doe</p>
+                <p class="app-sidebar__user-designation">Manager</p>
+            </div>
+        </div>
+        {% set current_route = app.request.attributes.get('_route') %}
+        <ul class="app-menu">
+            <li>
+                <a class="app-menu__item" href="/">
+                    <i class="app-menu__icon fa fa-dashboard"></i>
+                    <span class="app-menu__label">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a class="app-menu__item {{ current_route is same as('list_project') ? 'active' }}"
+                   href={{ path('list_project') }}>
+                    <i class="app-menu__icon fa fa-laptop"></i>
+                    <span class="app-menu__label">Projects</span>
+                </a>
+            </li>
+            <li>
+                <a class="app-menu__item {{ current_route is same as('list_employ') ? 'active' }}"
+                   href={{ path('list_employ') }}>
+                    <i class="app-menu__icon fa fa-users"></i>
+                    <span class="app-menu__label">Employs</span>
+                </a>
+            </li>
+            <li>
+                <a class="app-menu__item {{ current_route is same as('list_job') ? 'active' }}"
+                   href={{ path('list_job') }}>
+                    <i class="app-menu__icon fa fa-book"></i>
+                    <span class="app-menu__label">Jobs</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+    {% block content %}{% endblock %}
+    </body>
+    <footer class="main-footer">
+        &copy; 2020 - PROCOST
+    </footer>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+{% endblock %}
+{% block javaScript %}
+    <script src="js/pace.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+            integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+            crossorigin="anonymous"></script>
+    <script src="js/main.js"></script>
+    <!-- Specific page JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"
+            integrity="sha256-oSgtFCCmHWRPQ/JmR4OoZ3Xke1Pw4v50uh6pLcu+fIc=" crossorigin="anonymous"></script>
+    <script>
+        var ratioData = [70, 30];
+        var deliveredData = [35, 65];
+    </script>
+    <script src="js/dashboard.js"></script>
+{% endblock %}

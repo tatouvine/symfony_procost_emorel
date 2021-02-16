@@ -26,4 +26,28 @@ class MainController extends AbstractController
     {
         return $this->render('main/home.html.twig', []);
     }
+
+    /**
+     * @Route("/project", name="list_project")
+     */
+    public function listProject(): Response
+    {
+        return $this->render('list/project.html.twig', []);
+    }
+
+    /**
+     * @Route("/employ", name="list_employ")
+     */
+    public function listEmploy(): Response
+    {
+        return $this->render('list/employ.html.twig', []);
+    }
+
+    /**
+     * @Route("/job", name="list_job")
+     */
+    public function listJob(): Response
+    {
+        return $this->render('list/job.html.twig', []);
+    }
 }
