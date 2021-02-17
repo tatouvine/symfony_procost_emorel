@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Employ;
+use App\Form\EmployType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,13 +25,11 @@ class EditingController extends AbstractController
 
     /**
      * @Route("/project/edit/{id}", name="modify_project")
-     * @param Request $request
      * @param int $id
      * @return Response
      */
-    public function modifyProject(Request $request, int $id): Response
+    public function modifyProject(int $id): Response
     {
-        var_dump($id);
         return $this->render('edit/project.html.twig', []);
     }
 
@@ -52,11 +52,21 @@ class EditingController extends AbstractController
 
 
     /**
-     * @Route("/employ/edit", name="create_employ")
+     * @Route("/employ/edit", name="create_employ",methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
-    public function createEmploy(): Response
+    public function createEmploy(Request $request): Response
     {
-        return $this->render('edit/employ.html.twig', []);
+        $employ = new Employ();
+        $form = $this->createForm(EmployType::class, $employ);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->redirectToRoute('modify_employ');
+        }
+        return $this->render('edit/employ.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     /**
