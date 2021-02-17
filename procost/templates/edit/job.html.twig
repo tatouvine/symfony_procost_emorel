@@ -1,0 +1,48 @@
+{% extends 'layout.html.twig' %}
+{% block title %}Editing or create job{% endblock %}
+{% block content %}
+    <main class="app-content">
+        <div class="app-title">
+            <div>
+                <h1><i class="fa fa-users"></i>&nbsp;Editing or create job</h1>
+            </div>
+            <ul class="app-breadcrumb breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{{ path('main_homepage') }}"><i class="fa fa-home fa-lg"></i></a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{{ path('list_job') }}">Job</a>
+                </li>
+                <li class="breadcrumb-item">Editing or create job</li>
+            </ul>
+        </div>
+        <div class="tile">
+            <div class="alert alert-dismissible alert-success my-4">
+                <button class="close" type="button" data-dismiss="alert">×</button>
+                <strong>Well done!</strong> Message flash.
+            </div>
+            <form class="form-horizontal">
+                <section>
+                    <h3>Information</h3>
+                    <div class="row mt-4">
+                        <div class="offset-md-4 col-md-8">
+                            <div class="form-group row">
+                                <label class="control-label col-md-3">Job name</label>
+                                <div class="col-md-9">
+                                    <input class="form-control is-invalid" type="text">
+                                    <div class="form-control-feedback text-danger">Un message d'erreur</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <hr/>
+                <div class="row">
+                    <div class="offset-md-6 col-md-6">
+                        <button type="submit" class="btn btn-success"><i class="fa fa-save"></i>Create or Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+{% endblock %}

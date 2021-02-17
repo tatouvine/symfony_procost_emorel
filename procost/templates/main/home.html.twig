@@ -115,7 +115,7 @@
                         {% for i in 1..3 %}
                             <tr>
                                 <th>
-                                    <a href="#">Mon projet</a>
+                                    <a href="{{ asset('/project/plug/'~1) }}">Mon projet</a>
                                 </th>
                                 <th>18/03/2018</th>
                                 <th>20 000 €</th>
@@ -126,7 +126,7 @@
                             </tr>
                             <tr>
                                 <th>
-                                    <a href="#">Mon projet</a>
+                                    <a href="{{ asset('/project/plug/'~1) }}">Mon projet</a>
                                 </th>
                                 <th>18/03/2018</th>
                                 <th>20 000 €</th>
@@ -146,7 +146,7 @@
                     <ul class="list-group">
                         {% for i in 1..6 %}
                             <li class="list-group-item">
-                                <a href="#">James Brown</a> a travaillé sur <a href="#">Projet 1</a>
+                                <a href="{{ asset('/employ/plug/'~1) }}">James Brown</a> a travaillé sur <a href="{{ asset('/project/plug/'~1) }}">Projet 1</a>
                                 <div class="text-muted font-italic text-right">4 heures</div>
                             </li>
                         {% endfor %}

@@ -15,7 +15,7 @@
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
     <aside class="app-sidebar">
         <div class="app-sidebar__user">
-            <img class="app-sidebar__user-avatar" src="img/user.jpg" alt="User Image">
+            <img class="app-sidebar__user-avatar" src="{{ asset('img/user.jpg') }}" alt="User Image">
             <div>
                 <p class="app-sidebar__user-name">John Doe</p>
                 <p class="app-sidebar__user-designation">Manager</p>
@@ -30,7 +30,10 @@
                 </a>
             </li>
             <li>
-                <a class="app-menu__item {{ current_route is same as('list_project') ? 'active' }}"
+                <a class="app-menu__item {{ current_route is same as('list_project') or
+                current_route is same as('create_project') or
+                current_route is same as('modify_project')
+                ? 'active' }}"
                    href={{ path('list_project') }}>
                     <i class="app-menu__icon fa fa-laptop"></i>
                     <span class="app-menu__label">Projects</span>
@@ -62,7 +65,7 @@
 {% block stylesheets %}
     <link rel="stylesheet" type="text/css"
           href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}"/>
 {% endblock %}
 {% block javaScript %}
     <script src="js/pace.min.js"></script>
@@ -84,4 +87,5 @@
         var deliveredData = [35, 65];
     </script>
     <script src="js/dashboard.js"></script>
+
 {% endblock %}
