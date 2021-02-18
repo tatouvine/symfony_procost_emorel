@@ -21,28 +21,26 @@
                 <button class="close" type="button" data-dismiss="alert">×</button>
                 <strong>Well done!</strong> Message flash.
             </div>
-            <form class="form-horizontal">
-                <section>
-                    <h3>Information</h3>
-                    <div class="row mt-4">
-                        <div class="offset-md-4 col-md-8">
-                            <div class="form-group row">
-                                <label class="control-label col-md-3">Job name</label>
-                                <div class="col-md-9">
-                                    <input class="form-control is-invalid" type="text">
-                                    <div class="form-control-feedback text-danger">Un message d'erreur</div>
-                                </div>
-                            </div>
+            {{ form_start(form) }}
+            <section>
+                <h3>Information</h3>
+                <div class="row mt-4">
+                    <div class="offset-md-4 col-md-8">
+                        <div class="form-group row">
+                            {{ form_errors(form.name) }}
+                            {{ form_label(form.name) }}
+                            {{ form_widget(form.name,{'attr':{'class':'form-control','placeholder':form.name.vars.label} }) }}
                         </div>
                     </div>
-                </section>
-                <hr/>
-                <div class="row">
-                    <div class="offset-md-6 col-md-6">
-                        <button type="submit" class="btn btn-success"><i class="fa fa-save"></i>Create or Save</button>
-                    </div>
                 </div>
-            </form>
+            </section>
+            <hr/>
+            <div class="row">
+                <div class="offset-md-6 col-md-6">
+                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i>Create or Save</button>
+                </div>
+            </div>
+            {{ form_end(form) }}
         </div>
     </main>
 {% endblock %}

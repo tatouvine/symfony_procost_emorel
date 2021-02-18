@@ -21,59 +21,57 @@
                 <button class="close" type="button" data-dismiss="alert">×</button>
                 <strong>Well done!</strong> Message flash.
             </div>
-            <form class="form-horizontal">
-                <section>
-                    <h3>General information</h3>
-                    <div class="row mt-4">
-                        <div class="offset-md-4 col-md-8">
-                            <div class="form-group row">
-                                <label class="control-label col-md-3">Name</label>
-                                <div class="col-md-9">
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="control-label col-md-3">Description</label>
-                                <div class="col-md-9">
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="control-label col-md-3">Price (in €)</label>
-                                <div class="col-md-9">
-                                    <input class="form-control" type="number" min="0">
-                                </div>
-                            </div>
+            {{ form_start(form) }}
+            <section>
+                <h3>General information</h3>
+                <div class="row mt-4">
+                    <div class="offset-md-4 col-md-8">
+
+                        <div class="form-group row">
+                            {{ form_errors(form.name) }}
+                            {{ form_label(form.name) }}
+                            {{ form_widget(form.name,{'attr':{'class':'form-control','placeholder':form.name.vars.label} }) }}
                         </div>
-                    </div>
-                </section>
-                <hr/>
-                <section>
-                    <h3>Production</h3>
-                    <div class="row mt-4">
-                        <div class="offset-md-4 col-md-8">
-                            <div class="form-group row">
-                                <label class="control-label col-md-3">Creation Date</label>
-                                <div class="col-md-9">
-                                    <input class="form-control" type="date">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="control-label col-md-3">Delivey Date</label>
-                                <div class="col-md-9">
-                                    <input class="form-control" type="date">
-                                </div>
-                            </div>
+                        <div class="form-group row">
+                            {{ form_errors(form.description) }}
+                            {{ form_label(form.description) }}
+                            {{ form_widget(form.description,{'attr':{'class':'form-control','placeholder':form.description.vars.label} }) }}
                         </div>
-                    </div>
-                </section>
-                <hr/>
-                <div class="row">
-                    <div class="offset-md-6 col-md-6">
-                        <button type="submit" class="btn btn-success"><i class="fa fa-save"></i>Create or Save</button>
+                        <div class="form-group row">
+                            {{ form_errors(form.price) }}
+                            {{ form_label(form.price) }}
+                            {{ form_widget(form.price,{'type':'number','attr':{'class':'form-control','placeholder':form.price.vars.label} }) }}
+                        </div>
                     </div>
                 </div>
-            </form>
+            </section>
+            <hr/>
+            <section>
+                <h3>Production</h3>
+                <div class="row mt-4">
+                    <div class="offset-md-4 col-md-8">
+
+                        <div class="form-group row">
+                            {{ form_errors(form.creationDate) }}
+                            {{ form_label(form.creationDate) }}
+                            {{ form_widget(form.creationDate,{'attr':{'class':'form-control','placeholder':form.creationDate.vars.label} }) }}
+                        </div>
+
+                        <div class="form-group row">
+                            {{ form_errors(form.deliveyDate) }}
+                            {{ form_label(form.deliveyDate) }}
+                            {{ form_widget(form.deliveyDate,{'attr':{'class':'form-control','placeholder':form.deliveyDate.vars.label} }) }}
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <hr/>
+            <div class="row">
+                <div class="offset-md-6 col-md-6">
+                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i>Create or Save</button>
+                </div>
+            </div>
+            {{ form_end(form) }}
         </div>
     </main>
 {% endblock %}

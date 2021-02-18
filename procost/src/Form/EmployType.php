@@ -27,7 +27,11 @@ class EmployType extends AbstractType
                 ],
             ])
             ->add('hourlyCost', TextType::class, ['label' => 'hourlyCost'])
-            ->add('hiringDate', DateType::class, ['label' => 'hiringDate']);
+            ->add('hiringDate', DateType::class, [
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd',
+                'input' => 'datetime'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

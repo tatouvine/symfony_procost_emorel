@@ -20,12 +20,12 @@ class Employ
     /**
      * @var string|null
      * @Assert\NotBlank(message="Ce champ ne peut être vide")
+     * @Assert\Email (message="L'email {{ value }} n'est pas valide")
      */
     private ?string $email;
     /**
      * @var string|null
      * @Assert\NotBlank(message="Ce champ ne peut être vide")
-     * @Assert\Email (message="L'email {{ value }} n'est pas valide")
      */
     private ?string $job;
     /**
@@ -35,8 +35,7 @@ class Employ
     private ?string $hourlyCost;
     /**
      * @var DateTime
-     * @Assert\NotBlank(message="Ce champ ne peut être vide")
-     * @Assert\DateTime(message="Ce n'est pas une date conforme")
+     * @Assert\Type(type="\DateTimeInterface")
      */
     private DateTime $hiringDate;
 
