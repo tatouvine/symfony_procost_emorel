@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Src\Contact;
 use App\Form\ContactType;
 use App\Manager\ContactManager;
+use App\Repository\JobRepository;
 use App\Repository\Src\Store\ProductRepository;
 use App\Service\ContactMailer;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,9 +15,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
 {
-    public function __construct()
-    {
+    private JobRepository $jobRepository;
 
+    public function __construct(JobRepository $jobRepository)
+    {
+        $this->jobRepository = $jobRepository;
     }
 
     /**
@@ -48,6 +51,7 @@ class MainController extends AbstractController
      */
     public function listJob(): Response
     {
-        return $this->render('list/job.html.twig', []);
+        $jobs = $this->jobRepository->findAll();
+        return $this->render('list/job.html.twig', ['jobs' => $jobs]);
     }
 }
