@@ -30,7 +30,9 @@ class AppFixtures extends Fixture
             $job = (new Job())->setName((string)$name);
             $this->manager->persist($job);
             $this->addReference(Job::class . $key, $job);
-
         }
+    }
+    function blabla(){
+
     }
 }
