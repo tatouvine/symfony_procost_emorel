@@ -4,13 +4,13 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class="fa fa-users"></i>Employ</h1>
+                <h1><i class="fa fa-users"></i>Employs</h1>
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item">
                     <a href="/"><i class="fa fa-home fa-lg"></i></a>
                 </li>
-                <li class="breadcrumb-item">Employ</li>
+                <li class="breadcrumb-item">Employs</li>
             </ul>
         </div>
         <div class="tile pb-5">
@@ -30,19 +30,18 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for i in 1..5 %}
+                    {% for employ in employs %}
                         <tr>
-                            <td>firstname and NAME</td>
-                            <td>test@example.com</td>
-                            <td>Web developer</td>
-                            <td>300 €</td>
-                            <td>10/12/2020</td>
+                            <td>{{ employ.firstName }} {{ employ.lastName }}</td>
+                            <td>{{ employ.email }}</td>
+                            <td>{{ employ.job.name }}</td>
+                            <td>{{ employ.hourlyCost}} €</td>
+                            <td>{{ employ.hiringDate|date("d/m/Y") }}</td>
                             <td>
-                                <a href="{{ asset('/employ/show/'~1) }}" class="btn btn-primary btn-sm">
+                                <a href="{{ asset('/employ/show/'~employ.id) }}" class="btn btn-primary btn-sm">
                                     <i class="fa fa-eye mr-0"></i>
                                 </a>
-                                {% set foo = 1 %}
-                                <a href="{{ asset('/employ/edit/'~foo) }}" class="btn btn-info btn-sm">
+                                <a href="{{ asset('/employ/edit/'~employ.id) }}" class="btn btn-info btn-sm">
                                     <i class="fa fa-pencil mr-0"></i>
                                 </a>
                             </td>

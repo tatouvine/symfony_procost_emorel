@@ -22,5 +22,18 @@ class JobRepository extends ServiceEntityRepository
         parent::__construct($registry, Job::class);
     }
 
+    public function findAllJobAndPosibilityToDelete()
+    {
+        $conn = $this->getEntityManager()->getConnection();
 
+        $sql = '
+            SELECT *,(SELECT COUNT(*) FROM employ WHERE job_id =Job.id) as numberJobUse
+            FROM JOB 
+            ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $stmt->fetchAllAssociative();
+    }
 }

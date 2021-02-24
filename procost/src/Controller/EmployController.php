@@ -4,6 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Employ;
 use App\Form\EmployType;
+use App\Form\JobType;
+use App\Manager\EmployManager;
+use App\Repository\EmployRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,9 +14,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class EmployController extends AbstractController
 {
+    private EmployRepository $employRepository;
+    private EmployManager $employManager;
 
-    public function __construct()
+    public function __construct(EmployRepository $employRepository, EmployManager $employManager)
     {
+        $this->employRepository = $employRepository;
+        $this->employManager = $employManager;
     }
 
     /**
@@ -21,7 +28,8 @@ class EmployController extends AbstractController
      */
     public function listEmploy(): Response
     {
-        return $this->render('employ/list.html.twig', []);
+        $employs = $this->employRepository->findAll();
+        return $this->render('employ/list.html.twig', ['employs' => $employs]);
     }
 
     /**
@@ -35,6 +43,8 @@ class EmployController extends AbstractController
         $form = $this->createForm(EmployType::class, $employ);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->employManager->save($employ);
+            $this->addFlash('success','Employ is create');
             return $this->redirectToRoute('list_employ');
         }
         return $this->render('employ/edit.html.twig', [
@@ -45,9 +55,17 @@ class EmployController extends AbstractController
     /**
      * @Route("/employ/edit/{id}", name="modify_employ")
      */
-    public function modifyEmploy(): Response
+    public function modifyEmploy(Request $request, int $id): Response
     {
-        return $this->render('employ/edit.html.twig', []);
+        $employ = $this->employRepository->find($id);
+        $form = $this->createForm(EmployType::class, $employ);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->employManager->update();
+            $this->addFlash('success','Employ is update');
+            return $this->redirectToRoute('list_employ');
+        }
+        return $this->render('employ/edit.html.twig', ['form' => $form->createView()]);
     }
 
 
@@ -58,6 +76,9 @@ class EmployController extends AbstractController
      */
     public function plugEmploy(int $id): Response
     {
-        return $this->render('employ/show.html.twig', []);
+        $employ = $this->employRepository->find($id);
+        return $this->render('employ/show.html.twig', [
+            'employ' => $employ
+        ]);
     }
 }

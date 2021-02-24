@@ -3,8 +3,16 @@
 {% block content %}
     <main class="app-content">
         <div class="app-title">
-            <div>
-                <h1><i class="fa fa-users"></i>&nbsp;Editing or create project</h1>
+            <div>{% if
+
+                    path(
+                        app.request.attributes.get('_route'),
+                        app.request.attributes.get('_route_params')
+                    ) == "/project/edit" %}
+                    <h1><i class="fa fa-users"></i>Create project</h1>
+                {% else %}
+                    <h1><i class="fa fa-users"></i>Update project</h1>
+                {% endif %}
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item">
@@ -13,7 +21,15 @@
                 <li class="breadcrumb-item">
                     <a href="{{ path('list_project') }}">Project</a>
                 </li>
-                <li class="breadcrumb-item">Editing or create project</li>
+                {% if
+                    path(
+                        app.request.attributes.get('_route'),
+                        app.request.attributes.get('_route_params')
+                    ) == "/project/edit" %}
+                    <li class="breadcrumb-item">Create project</li>
+                {% else %}
+                    <li class="breadcrumb-item">Update project</li>
+                {% endif %}
             </ul>
         </div>
         <div class="tile">
@@ -57,18 +73,22 @@
                             {{ form_widget(form.creationDate,{'attr':{'class':'form-control','placeholder':form.creationDate.vars.label} }) }}
                         </div>
 
-                        <div class="form-group row">
-                            {{ form_errors(form.deliveyDate) }}
-                            {{ form_label(form.deliveyDate) }}
-                            {{ form_widget(form.deliveyDate,{'attr':{'class':'form-control','placeholder':form.deliveyDate.vars.label} }) }}
-                        </div>
                     </div>
                 </div>
             </section>
             <hr/>
             <div class="row">
                 <div class="offset-md-6 col-md-6">
-                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i>Create or Save</button>
+                    {% if
+
+                        path(
+                            app.request.attributes.get('_route'),
+                            app.request.attributes.get('_route_params')
+                        ) == "/project/edit" %}
+                        <button type="submit" class="btn btn-success"><i class="fa fa-save"></i>Create</button>
+                    {% else %}
+                        <button type="submit" class="btn btn-success"><i class="fa fa-save"></i>Update</button>
+                    {% endif %}
                 </div>
             </div>
             {{ form_end(form) }}

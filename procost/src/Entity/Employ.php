@@ -3,41 +3,67 @@
 namespace App\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\EmployRepository")
+ * @ORM\Table(name="employ")
+ */
 class Employ
 {
     /**
+     * @var int|null
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private ?int $id;
+
+    /**
      * @var string|null
      * @Assert\NotBlank(message="Ce champ ne peut être vide")
+     * @ORM\Column(type="string",length=255)
      */
     private ?string $firstName;
     /**
      * @var string|null
      * @Assert\NotBlank(message="Ce champ ne peut être vide")
+     * @ORM\Column(type="string",length=255)
      */
     private ?string $lastName;
     /**
      * @var string|null
      * @Assert\NotBlank(message="Ce champ ne peut être vide")
      * @Assert\Email (message="L'email {{ value }} n'est pas valide")
+     * @ORM\Column(type="string",length=255)
      */
     private ?string $email;
     /**
-     * @var string|null
      * @Assert\NotBlank(message="Ce champ ne peut être vide")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Job", inversedBy="employ")
+     * @ORM\JoinColumn(nullable=false,name="job_id")
      */
-    private ?string $job;
+    private $job;
     /**
-     * @var string|null
      * @Assert\NotBlank(message="Ce champ ne peut être vide")
+     * @ORM\Column(type="string",length=255)
      */
-    private ?string $hourlyCost;
+    private $hourlyCost;
     /**
      * @var DateTime
      * @Assert\Type(type="\DateTimeInterface")
+     * @ORM\Column(type="datetime")
      */
     private DateTime $hiringDate;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ManagementWorkingHours",mappedBy="employ")
+     */
+    private $hourList;
+
 
     public function __construct()
     {
@@ -47,6 +73,18 @@ class Employ
         $this->firstName = null;
         $this->email = null;
         $this->hourlyCost = null;
+        $this->hourList = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setId(?int $id): Employ
+    {
+        $this->id = $id;
+        return $this;
     }
 
     public function getFirstName(): string
@@ -83,23 +121,23 @@ class Employ
         return $this;
     }
 
-    public function getJob(): string
+    public function getJob()
     {
         return $this->job;
     }
 
-    public function setJob(?string $job): Employ
+    public function setJob($job): Employ
     {
         $this->job = $job;
         return $this;
     }
 
-    public function getHourlyCost(): string
+    public function getHourlyCost()
     {
         return $this->hourlyCost;
     }
 
-    public function setHourlyCost(?string $hourlyCost): Employ
+    public function setHourlyCost($hourlyCost): Employ
     {
         $this->hourlyCost = $hourlyCost;
         return $this;
@@ -110,9 +148,36 @@ class Employ
         return $this->hiringDate;
     }
 
-    public function setHiringDate($hiringDate): void
+    public function setHiringDate($hiringDate): Employ
     {
         $this->hiringDate = $hiringDate;
+        return $this;
     }
+
+    public function getHourList(): Collection
+    {
+        return $this->hourList;
+    }
+
+    public function addOneInHourList(ManagementWorkingHours $value): self
+    {
+        if (!$this->hourList->contains($value)) {
+            $this->hourList[] = $value;
+            $value->setEmploy($this);
+        }
+        return $this;
+    }
+
+    public function removeOneInHourList(ManagementWorkingHours $value): self
+    {
+        if ($this->hourList->contains($value)) {
+            $this->hourList->removeElement($value);
+            if ($value->getEmploy() === $this) {
+                $value->setEmploy(null);
+            }
+        }
+        return $this;
+    }
+
 
 }

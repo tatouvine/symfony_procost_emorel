@@ -4,7 +4,7 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class="fa fa-users"></i>&nbsp;Followed by NAME OF PROJECT</h1>
+                <h1><i class="fa fa-users"></i>&nbsp;Followed by {{ project.name }}</h1>
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item">
@@ -13,7 +13,7 @@
                 <li class="breadcrumb-item">
                     <a href="{{ path('list_project') }}">Project</a>
                 </li>
-                <li class="breadcrumb-item">Followed by NAME OF PROJECT</li>
+                <li class="breadcrumb-item">Followed by {{ project.name}}</li>
             </ul>
         </div>
         <div class="row">
@@ -24,32 +24,27 @@
                         <tr>
                             <th>Name
                             </td>
-                            <td>Nom du projet</td>
+                            <td>{{ project.name }}</td>
                         </tr>
                         <tr>
                             <th>Description
                             </td>
-                            <td>une description</td>
+                            <td>{{ project.description }}</td>
                         </tr>
                         <tr>
                             <th>Price
                             </td>
-                            <td>500€</td>
+                            <td>{{ project.price }}€</td>
                         </tr>
                         <tr>
                             <th>Creation Date
                             </td>
-                            <td>10/12/2011</td>
+                            <td>{{ project.creationDate|date('d/m/Y') }}</td>
                         </tr>
                         <tr>
                             <th>Delivey Date
                             </td>
-                            <td>05/08/2020</td>
-                        </tr>
-                        <tr>
-                            <th>Hiring date
-                            </td>
-                            <td>10/12/2012</td>
+                            <td>{{ project.deliveyDate|date('d/m/Y') }}</td>
                         </tr>
                         <tr>
                             <th>Total cost

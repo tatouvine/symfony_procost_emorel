@@ -3,35 +3,60 @@
 namespace App\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
+ * @ORM\Table(name="project")
+ */
 class Project
 {
+
+    /**
+     * @var int|null
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private ?int $id;
+
     /**
      * @var string|null
      * @Assert\NotBlank(message="Ce champ ne peut être vide")
+     * @ORM\Column(type="string",length=255)
      */
     private ?string $name;
     /**
      * @var string|null
      * @Assert\NotBlank(message="Ce champ ne peut être vide")
+     * @ORM\Column(type="text")
      */
     private ?string $description;
     /**
      * @var string|null
      * @Assert\NotBlank(message="Ce champ ne peut être vide")
+     * @ORM\Column(type="string",length=255)
      */
     private ?string $price;
     /**
      * @var DateTime
      * @Assert\Type(type="\DateTimeInterface")
+     * @ORM\Column(type="datetime")
      */
     private DateTime $creationDate;
     /**
      * @var DateTime
      * @Assert\Type(type="\DateTimeInterface")
+     * @ORM\Column(type="datetime",nullable=true)
      */
-    private DateTime $deliveyDate;
+    private ?DateTime $deliveyDate;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ManagementWorkingHours",mappedBy="project")
+     */
+    private $hourList;
 
     public function __construct()
     {
@@ -39,7 +64,20 @@ class Project
         $this->price = null;
         $this->description = null;
         $this->creationDate = new DateTime();
-        $this->deliveyDate = new  DateTime();
+        $this->deliveyDate = null;
+        $this->projectDeliver = false;
+        $this->hourList = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setId(?int $id): Project
+    {
+        $this->id = $id;
+        return $this;
     }
 
     /**
@@ -117,7 +155,7 @@ class Project
     /**
      * @return DateTime
      */
-    public function getDeliveyDate(): DateTime
+    public function getDeliveyDate(): ?DateTime
     {
         return $this->deliveyDate;
     }
@@ -132,4 +170,28 @@ class Project
         return $this;
     }
 
+    public function getHourList(): Collection
+    {
+        return $this->hourList;
+    }
+
+    public function addOneInHourList(ManagementWorkingHours $value): self
+    {
+        if (!$this->hourList->contains($value)) {
+            $this->hourList[] = $value;
+            $value->setEmploy($this);
+        }
+        return $this;
+    }
+
+    public function removeOneInHourList(ManagementWorkingHours $value): self
+    {
+        if ($this->hourList->contains($value)) {
+            $this->hourList->removeElement($value);
+            if ($value->getEmploy() === $this) {
+                $value->setEmploy(null);
+            }
+        }
+        return $this;
+    }
 }

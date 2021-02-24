@@ -13,6 +13,7 @@
                 <li class="breadcrumb-item">Project</li>
             </ul>
         </div>
+        {% include 'flash_message.html.twig' %}
         <div class="tile pb-5">
             <a href="{{ asset('/project/edit') }}" class="btn btn-primary float-right mb-4"><i
                         class="fa fa-plus-circle mr-2"></i>Create a
@@ -30,21 +31,29 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for i in 1..5 %}
+                    {% for project in projects %}
                         <tr>
-                            <td>project name</td>
-                            <td>description</td>
-                            <td>500€</td>
-                            <td>12/11/2020</td>
-                            <td>12/12/2020</td>
+                            <td>{{ project.name }}</td>
+                            <td>{{ project.description }}</td>
+                            <td>{{ project.price }} €</td>
+                            <td>{{ project.creationDate|date("d/m/Y") }}</td>
+                            {% if project.deliveyDate == null %}
+                                <td> No Date</td>
+                            {% else %}
+                                <td>{{ project.deliveyDate|date("d /m/Y") }}</td>
+                            {% endif %}
                             <td>
-                                <a href="{{ asset('/project/show/'~1) }}" class="btn btn-primary btn-sm">
+                                <a href="{{ asset('/project/show/'~project.id) }}" class="btn btn-primary btn-sm">
                                     <i class="fa fa-eye mr-0"></i>
                                 </a>
-                                {% set foo = 1 %}
-                                <a href="{{ asset('/project/edit/'~foo) }}" class="btn btn-info btn-sm">
-                                    <i class="fa fa-pencil mr-0"></i>
-                                </a>
+                                {% if project.deliveyDate == null %}
+                                    <a href="{{ asset('/project/edit/'~project.id) }}" class="btn btn-info btn-sm">
+                                        <i class="fa fa-pencil mr-0"></i>
+                                    </a>
+                                    <a href="{{ asset('/project/push/' ~ project.id) }}" class="btn btn-light btn-sm">
+                                        <i class="fa fa-check mr-0"></i>
+                                    </a>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}

@@ -3,17 +3,35 @@
 {% block content %}
     <main class="app-content">
         <div class="app-title">
-            <div>
-                <h1><i class="fa fa-users"></i>&nbsp;Editing or create job</h1>
+            <div>{% if
+
+                    path(
+                        app.request.attributes.get('_route'),
+                        app.request.attributes.get('_route_params')
+                    ) == "/job/edit" %}
+                    <h1><i class="fa fa-users"></i>Create job</h1>
+                {% else %}
+                    <h1><i class="fa fa-users"></i>Update job</h1>
+                {% endif %}
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item">
                     <a href="{{ path('main_homepage') }}"><i class="fa fa-home fa-lg"></i></a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ path('list_job') }}">Job</a>
+                    <a href="{{ path('list_project') }}">Job</a>
                 </li>
-                <li class="breadcrumb-item">Editing or create job</li>
+
+                {% if
+
+                    path(
+                        app.request.attributes.get('_route'),
+                        app.request.attributes.get('_route_params')
+                    ) == "/job/edit" %}
+                    <li class="breadcrumb-item">Create job</li>
+                {% else %}
+                    <li class="breadcrumb-item">Update job</li>
+                {% endif %}
             </ul>
         </div>
         <div class="tile">
@@ -37,7 +55,16 @@
             <hr/>
             <div class="row">
                 <div class="offset-md-6 col-md-6">
-                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i>Create or Save</button>
+                    {% if
+
+                        path(
+                            app.request.attributes.get('_route'),
+                            app.request.attributes.get('_route_params')
+                        ) == "/job/edit" %}
+                        <button type="submit" class="btn btn-success"><i class="fa fa-save"></i>Create</button>
+                    {% else %}
+                        <button type="submit" class="btn btn-success"><i class="fa fa-save"></i>Update</button>
+                    {% endif %}
                 </div>
             </div>
             {{ form_end(form) }}

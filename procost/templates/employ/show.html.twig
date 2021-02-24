@@ -4,7 +4,8 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class="fa fa-users"></i>&nbsp;Followed by FIRSTNAME NAME</h1>
+                <h1><i class="fa fa-users"></i>&nbsp;Followed by {{ employ.
+                    firstname}} {{ employ.lastName }}</h1>
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item">
@@ -13,7 +14,8 @@
                 <li class="breadcrumb-item">
                     <a href="{{ path('list_employ') }}">Employ</a>
                 </li>
-                <li class="breadcrumb-item">Followed by FIRSTNAME NAME</li>
+                <li class="breadcrumb-item">Followed by {{ employ.
+                    firstname}} {{ employ.lastName }}</li>
             </ul>
         </div>
         <div class="row">
@@ -24,36 +26,36 @@
                         <tr>
                             <th>FirstName
                             </td>
-                            <td>Jack</td>
+                            <td>{{ employ.firstName }}</td>
                         </tr>
                         <tr>
                             <th>Name
                             </td>
-                            <td>FROST</td>
+                            <td>{{ employ.lastName }}</td>
                         </tr>
                         <tr>
                             <th>Email
                             </td>
-                            <td>jfrost@procost.com</td>
+                            <td>{{ employ.email }}</td>
                         </tr>
                         <tr>
                             <th>Job
                             </td>
-                            <td>Web developer</td>
+                            <td>{{ employ.job.name }}</td>
                         </tr>
                         <tr>
                             <th>Hourly cost
                             </td>
-                            <td>200 €</td>
+                            <td>{{ employ.hourlyCost }} €</td>
                         </tr>
                         <tr>
                             <th>Hiring date
                             </td>
-                            <td>10/12/2012</td>
+                            <td>{{ employ.hiringDate|date("d/m/Y") }}</td>
                         </tr>
                         </tbody>
                     </table>
-                    <a href="{{ asset('/employ/edit/'~1) }}" class="btn btn-info">
+                    <a href="{{ asset('/employ/edit/'~employ.id) }}" class="btn btn-info">
                         <i class="fa fa-pencil"></i>Modify
                     </a>
                 </div>

@@ -21,11 +21,6 @@ class ProjectType extends AbstractType
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
                 'input' => 'datetime'
-            ])
-            ->add('deliveyDate', DateType::class, [
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd',
-                'input' => 'datetime'
             ]);
     }
 

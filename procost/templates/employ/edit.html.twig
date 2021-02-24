@@ -4,7 +4,16 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class="fa fa-users"></i>&nbsp;Editing or create employ</h1>
+                {% if
+
+                    path(
+                        app.request.attributes.get('_route'),
+                        app.request.attributes.get('_route_params')
+                    ) == "/employ/edit" %}
+                <h1><i class="fa fa-users"></i>Create employ</h1>
+                {% else %}
+                    <h1><i class="fa fa-users"></i>Update employ</h1>
+                {% endif %}
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item">
@@ -13,7 +22,17 @@
                 <li class="breadcrumb-item">
                     <a href="{{ path('list_employ') }}">Employ</a>
                 </li>
-                <li class="breadcrumb-item">Editing or create employ</li>
+
+                {% if
+
+                    path(
+                        app.request.attributes.get('_route'),
+                        app.request.attributes.get('_route_params')
+                    ) == "/employ/edit" %}
+                    <li class="breadcrumb-item">Create employ</li>
+                {% else %}
+                    <li class="breadcrumb-item">Update employ</li>
+                {% endif %}
             </ul>
         </div>
         <div class="tile">
@@ -71,7 +90,16 @@
             <hr/>
             <div class="row">
                 <div class="offset-md-6 col-md-6">
-                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i>Create or Save</button>
+                    {% if
+
+                        path(
+                            app.request.attributes.get('_route'),
+                            app.request.attributes.get('_route_params')
+                        ) == "/employ/edit" %}
+                        <button type="submit" class="btn btn-success"><i class="fa fa-save"></i>Create</button>
+                    {% else %}
+                        <button type="submit" class="btn btn-success"><i class="fa fa-save"></i>Update</button>
+                    {% endif %}
                 </div>
             </div>
             {{ form_end(form) }}
