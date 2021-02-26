@@ -1,0 +1,12 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Erreur 404{% endblock %}
+
+{% block content %}
+    <main class="app-content">
+        <div class="app-title">
+            <h1>La page est introuvable</h1>
+            <p><a href={{ path('main_homepage') }}>Revenir a la page de menu</a></p>
+        </div>
+    </main>
+{% endblock %}

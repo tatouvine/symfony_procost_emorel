@@ -5,7 +5,7 @@
         <div class="app-title">
             <div>
                 <h1><i class="fa fa-users"></i>&nbsp;Followed by {{ employ.
-                    firstname}} {{ employ.lastName }}</h1>
+                    firstname }} {{ employ.lastName }}</h1>
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item">
@@ -15,9 +15,10 @@
                     <a href="{{ path('list_employ') }}">Employ</a>
                 </li>
                 <li class="breadcrumb-item">Followed by {{ employ.
-                    firstname}} {{ employ.lastName }}</li>
+                    firstname }} {{ employ.lastName }}</li>
             </ul>
         </div>
+        {% include 'flash_message.html.twig' %}
         <div class="row">
             <div class="col-md-4">
                 <div class="tile">
@@ -61,30 +62,30 @@
                 </div>
                 <div class="tile">
                     <h3 class="title-title mb-4">Add time</h3>
-                    <form class="form-horizontal">
-                        <div class="form-group row">
-                            <label for="select-projects" class="control-label col-md-6">Project concerned</label>
-                            <div class="col-md-6">
-                                <select class="form-control" id="select-projects">
-                                    {% for i in 1..6 %}
-                                        <option>Project {{ i }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
+                    {{ form_start(form) }}
+                    <div class="form-group row">
+                        <label for="select-projects" class="control-label col-md-6">Project concerned</label>
+                        <div class="col-md-6">
+                            {{ form_errors(form.project) }}
+                            {{ form_label(form.project) }}
+                            {{ form_widget(form.project,{'attr':{'class':'form-control','placeholder':form.project.vars.label}}) }}
                         </div>
-                        <div class="form-group row">
-                            <label for="days-count" class="control-label col-md-6">Number of hours</label>
-                            <div class="col-md-6">
-                                <input id="days-count" class="form-control" type="number" min="1">
-                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="days-count" class="control-label col-md-6">Number of hours</label>
+                        <div class="col-md-6">
+                            {{ form_errors(form.hours) }}
+                            {{ form_label(form.hours) }}
+                            {{ form_widget(form.hours,{'type':'number','attr':{'class':'form-control','placeholder':form.hours.vars.label}}) }}
                         </div>
-                        <div class="row">
-                            <div class="offset-md-6 col-md-8">
-                                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i>Save
-                                </button>
-                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="offset-md-6 col-md-8">
+                            <button type="submit" class="btn btn-success"><i class="fa fa-save"></i>Save
+                            </button>
                         </div>
-                    </form>
+                    </div>
+                    {{ form_end(form) }}
                 </div>
             </div>
             <div class="col-md-8">
@@ -101,12 +102,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for i in 1..6 %}
+                            {% for hourlist in hourlists %}
                                 <tr>
-                                    <td>Nom du projet</td>
-                                    <td>4 heures</td>
-                                    <td>23-04-2018</td>
-                                    <td>1 400 €</td>
+                                    <td>{{ hourlist.project.name }}</td>
+                                    <td>{{ hourlist.hours }}</td>
+                                    <td>{{ hourlist.creationDate|date("d/m/Y") }}</td>
+                                    <td>{{ hourlist.hours*hourlist.employ.hourlyCost }} €</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

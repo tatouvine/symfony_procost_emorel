@@ -14,8 +14,8 @@
                         <div class="widget-small info coloured-icon">
                             <i class="icon fa fa-spinner fa-3x" aria-hidden="true"></i>
                             <div class="info">
-                                <p class="text-muted text-sm text-uppercase">Projets en cours</p>
-                                <p><strong>11</strong></p>
+                                <p class="text-muted text-sm text-uppercase">Current projects</p>
+                                <p><strong>{{ countProjectNotFinish }}</strong></p>
                             </div>
                         </div>
                     </div>
@@ -23,8 +23,8 @@
                         <div class="widget-small warning coloured-icon">
                             <i class="icon fa fa-check-square-o fa-3x" aria-hidden="true"></i>
                             <div class="info">
-                                <p class="text-muted text-sm text-uppercase">Projets livrés</p>
-                                <p><strong>76</strong></p>
+                                <p class="text-muted text-sm text-uppercase">Projects delivered</p>
+                                <p><strong>{{ countProjectFinish }}</strong></p>
                             </div>
                         </div>
                     </div>
@@ -41,8 +41,8 @@
                         <div class="widget-small danger coloured-icon">
                             <i class="icon fa fa-calendar-check-o fa-3x" aria-hidden="true"></i>
                             <div class="info">
-                                <p class="text-muted text-sm text-uppercase">Heures de production</p>
-                                <p><strong>267</strong></p>
+                                <p class="text-muted text-sm text-uppercase">Production hours</p>
+                                <p><strong>{{ countHours.allHours }}</strong></p>
                             </div>
                         </div>
                     </div>
@@ -50,10 +50,11 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="card text-uppercase">
-                            <div class="card-header text-center">Rentabilité</div>
+                            <div class="card-header text-center">Profitability</div>
                             <div class="card-body">
                                 <p class="text-muted">
-                                    <i class="fa fa-database mr-2 text-primary"></i> 70% RENTABLE
+                                    <i class="fa fa-database mr-2 text-primary"></i> {{ profitable|number_format(2, '.', ',') }}
+                                    % PROFITABLE
                                 </p>
                                 <div class="embed-responsive embed-responsive-16by9">
                                     <canvas id="ratio-chart" class="embed-responsive-item"></canvas>
@@ -63,10 +64,11 @@
                     </div>
                     <div class="col-md-4">
                         <div class="card text-uppercase">
-                            <div class="card-header text-center">Taux de livraison</div>
+                            <div class="card-header text-center">Delivery rate</div>
                             <div class="card-body">
                                 <p class="text-muted">
-                                    <i class="fa fa fa-check-square-o mr-2 text-primary"></i> 35% Livrés
+                                    <i class="fa fa fa-check-square-o mr-2 text-primary"></i> {{ deliveryRate|number_format(2, '.', ',') }}
+                                    % Delivered
                                 </p>
                                 <div class="embed-responsive embed-responsive-16by9">
                                     <canvas id="delivered-chart" class="embed-responsive-item"></canvas>
@@ -76,22 +78,22 @@
                     </div>
                     <div class="col-md-4">
                         <div class="card">
-                            <div class="card-header text-center text-uppercase">Top employé</div>
+                            <div class="card-header text-center text-uppercase">Best employer</div>
                             <div class="card-body">
                                 <div class="text-center">
                                     <img src="img/ui-zac.jpg" class="rounded-circle" width="58">
                                     <p class="mt-2">
-                                        <strong>Zac Producteur</strong>
+                                        <strong>{{ bestEmploy.value.employ.firstName }} {{ bestEmploy.value.employ.lastName }}</strong>
                                     </p>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <p class="small mt">EMPLOYÉ DEPUIS</p>
-                                        <p>Février 2012</p>
+                                        <p class="small mt">EMPLOYEE SINCE</p>
+                                        <p>{{ bestEmploy.value.employ.hiringDate|date('d/m/Y') }}</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <p class="small mt">COÛT TOTAL</p>
-                                        <p>34 567 €</p>
+                                        <p class="small mt">TOTA COST</p>
+                                        <p>{{ bestEmploy.cost }}€</p>
                                     </div>
                                 </div>
                             </div>
@@ -100,39 +102,36 @@
                 </div>
                 <hr>
                 <div class="tile table-responsive">
-                    <h2 class="tile-title">Les derniers projets</h2>
+                    <h2 class="tile-title">The latest projects</h2>
                     <table class="table table-hover table-striped table-sm">
                         <thead>
                         <tr>
-                            <th>Projet</th>
-                            <th>Date de création</th>
-                            <th>Prix de vente</th>
-                            <th>Coût</th>
-                            <th>Est livré</th>
+                            <th>Project</th>
+                            <th>Creation date</th>
+                            <th>Selling price</th>
+                            <th>Cost</th>
+                            <th>Is delivered</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for i in 1..3 %}
+                        {% for project in projects %}
                             <tr>
                                 <th>
-                                    <a href="{{ asset('/project/show/'~1) }}">Mon projet</a>
+                                    <a href="{{ asset('/project/show/'~project.project.id) }}">{{ project.project.name }}</a>
                                 </th>
-                                <th>18/03/2018</th>
-                                <th>20 000 €</th>
-                                <th>3 200 €</th>
+                                <th>{{ project.project.creationDate|date("d/m/Y") }}</th>
+                                <th>{{ project.project.price }} €</th>
+                                {% if project.total == null %}
+                                    <th>0 €</th>
+                                {% else %}
+                                    <th>{{ project.total }} €</th>
+                                {% endif %}
                                 <th>
-                                    <span class="badge badge-success">OUI</span>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <a href="{{ asset('/project/show/'~1) }}">Mon projet</a>
-                                </th>
-                                <th>18/03/2018</th>
-                                <th>20 000 €</th>
-                                <th>3 200 €</th>
-                                <th>
-                                    <span class="badge badge-danger">NON</span>
+                                    {% if project.project.deliveryDate == null %}
+                                        <span class="badge badge-danger">NON</span>
+                                    {% else %}
+                                        <span class="badge badge-success">OUI</span>
+                                    {% endif %}
                                 </th>
                             </tr>
                         {% endfor %}
@@ -142,12 +141,14 @@
             </div>
             <div class="col-md-3">
                 <div class="tile">
-                    <h2 class="tile-title text-center">Temps de production</h2>
+                    <h2 class="tile-title text-center">Production Times</h2>
                     <ul class="list-group">
-                        {% for i in 1..6 %}
+                        {% for productionTime in productionTimes %}
                             <li class="list-group-item">
-                                <a href="{{ asset('/employ/show/'~1) }}">James Brown</a> a travaillé sur <a href="{{ asset('/project/plug/'~1) }}">Projet 1</a>
-                                <div class="text-muted font-italic text-right">4 heures</div>
+                                <a href="{{ asset('/employ/show/'~productionTime.employ.id) }}">{{ productionTime.employ.firstName }} {{ productionTime.employ.lastName }}</a>
+                                worked on <a
+                                        href="{{ asset('/project/show/'~productionTime.project.id) }}">{{ productionTime.project.name }}</a>
+                                <div class="text-muted font-italic text-right">{{ productionTime.hours }} heures</div>
                             </li>
                         {% endfor %}
                     </ul>

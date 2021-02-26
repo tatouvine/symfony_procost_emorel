@@ -19,5 +19,49 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
+    public function findTotalCostByProject(): array
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select('p as project')
+            ->leftJoin('p.hourList', 'pt')
+            ->leftJoin('pt.employ', 'e')
+            ->addSelect('e,pt ,sum(pt.hours*e.hourlyCost) as total')
+            ->groupBy('p.id')
+            ->orderBy('p.creationDate', 'DESC')
+            ->setMaxResults(5);
 
+        return $qb->getQuery()->getResult();
+    }
+
+    public function projectCountFinish()
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select('count(p)')
+            ->where('p.deliveryDate IS NOT NULL');
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function projectListFinish()
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select('p as project')
+            ->leftJoin('p.hourList', 'pt')
+            ->leftJoin('pt.employ', 'e')
+            ->addSelect('e,pt ,sum(pt.hours*e.hourlyCost) as total')
+            ->where('p.deliveryDate IS NOT NULL')
+            ->groupBy('p.id')
+            ->orderBy('p.creationDate', 'DESC')
+            ->setMaxResults(5);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function projectCountNotFinish()
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select('count(p)')
+            ->where('p.deliveryDate IS NULL');
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }

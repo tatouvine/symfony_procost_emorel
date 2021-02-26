@@ -2,10 +2,8 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Collection;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ManagementWorkingHoursRepository")
@@ -38,10 +36,14 @@ class ManagementWorkingHours
      */
     private $hours;
 
+    /**
+     * @ORM\Column (type="datetime")
+     */
+    private DateTime $creationDate;
 
     public function __construct()
     {
-
+        $this->creationDate = new DateTime();
     }
 
     public function getId(): ?int
@@ -88,4 +90,14 @@ class ManagementWorkingHours
         return $this;
     }
 
+    public function getcreationDate()
+    {
+        return $this->creationDate;
+    }
+
+    public function setcreationDate($creationDate): self
+    {
+        $this->creationDate = $creationDate;
+        return $this;
+    }
 }

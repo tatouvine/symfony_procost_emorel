@@ -1,9 +1,7 @@
 {% for flash_type, messages in app.flashes %}
         {% for message in messages %}
-            <div class="alert alert-dismissible alert-{{ flash_type }} my-4">
-                <button class="close" type="button" data-dismiss="alert">×</button>
+            <div class="alert alert-{{ flash_type }} my-4">
                 {{ message }}
             </div>
-
         {% endfor %}
 {% endfor %}

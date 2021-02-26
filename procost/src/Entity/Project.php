@@ -52,7 +52,7 @@ class Project
      * @Assert\Type(type="\DateTimeInterface")
      * @ORM\Column(type="datetime",nullable=true)
      */
-    private ?DateTime $deliveyDate;
+    private ?DateTime $deliveryDate;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ManagementWorkingHours",mappedBy="project")
      */
@@ -64,8 +64,7 @@ class Project
         $this->price = null;
         $this->description = null;
         $this->creationDate = new DateTime();
-        $this->deliveyDate = null;
-        $this->projectDeliver = false;
+        $this->deliveryDate = null;
         $this->hourList = new ArrayCollection();
     }
 
@@ -153,20 +152,20 @@ class Project
     }
 
     /**
-     * @return DateTime
+     * @return DateTime|null
      */
-    public function getDeliveyDate(): ?DateTime
+    public function getDeliveryDate(): ?DateTime
     {
-        return $this->deliveyDate;
+        return $this->deliveryDate;
     }
 
     /**
-     * @param DateTime $deliveyDate
+     * @param DateTime $deliveryDate
      * @return Project
      */
-    public function setDeliveyDate(DateTime $deliveyDate): Project
+    public function setDeliveryDate(DateTime $deliveryDate): Project
     {
-        $this->deliveyDate = $deliveyDate;
+        $this->deliveryDate = $deliveryDate;
         return $this;
     }
 
