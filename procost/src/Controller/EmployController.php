@@ -34,12 +34,20 @@ class EmployController extends AbstractController
     }
 
     /**
-     * @Route("/employ", name="list_employ")
+     * @Route("/employ/{page?1}", name="list_employ", requirements={"page" = "\d+"},methods={"GET"})
+     * @param int|null $page
+     * @return Response
      */
-    public function listEmploy(): Response
+    public function listEmploy(?int $page = 1): Response
     {
-        $employs = $this->employRepository->findAll();
-        return $this->render('employ/list.html.twig', ['employs' => $employs]);
+        $countPage = ceil($this->employRepository->countEmploys()[1] / 10);
+        $employs = $this->employRepository->findEmployByPage($page);
+        return $this->render('employ/list.html.twig', [
+            'employs' => $employs,
+            'countPage' => $countPage,
+            'actualyPage' => $page,
+            'url' => '/employ/'
+        ]);
     }
 
     /**
@@ -80,15 +88,18 @@ class EmployController extends AbstractController
 
 
     /**
-     * @Route("/employ/show/{id}", name="show_employ")
+     * @Route("/employ/show/{id}/{page?1}", name="show_employ")
      * @param Request $request
      * @param int $id
+     * @param int|null $page
      * @return Response
      */
-    public function showEmploy(Request $request, int $id): Response
+    public function showEmploy(Request $request, int $id, ?int $page): Response
     {
-        $hourlists = $this->managementWorkingHoursRepository->findAllValue($id);
+        $hourlists = $this->managementWorkingHoursRepository->findAllValue($id, $page);
         $employ = $this->employRepository->find($id);
+        $url = '/employ/show/' . $id . '/';
+        $countPage = ceil($this->managementWorkingHoursRepository->countLineByEmploy($id)[1] / 5);
 
 
         $addTime = new ManagementWorkingHours();
@@ -101,14 +112,20 @@ class EmployController extends AbstractController
             return $this->render('employ/show.html.twig', [
                 'employ' => $employ,
                 'hourlists' => $hourlists,
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'countPage' => $countPage,
+                'actualyPage' => $page,
+                'url' => $url
             ]);
         }
-
         return $this->render('employ/show.html.twig', [
             'employ' => $employ,
             'hourlists' => $hourlists,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'countPage' => $countPage,
+            'actualyPage' => $page,
+            'url' => $url
         ]);
     }
+
 }

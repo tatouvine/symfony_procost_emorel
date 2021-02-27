@@ -35,12 +35,21 @@ class ProjectController extends AbstractController
     }
 
     /**
-     * @Route("/project", name="list_project")
+     * @Route("/project/{page?1}", name="list_project", requirements={"page" = "\d+"},methods={"GET"})
+     * @param int|null $page
+     * @return Response
      */
-    public function listProject(): Response
+    public function listProject(?int $page =1): Response
     {
-        $projects = $this->projectRepository->findAll();
-        return $this->render('project/list.html.twig', ['projects' => $projects]);
+        $projects = $this->projectRepository->findProjectByPage($page);
+        $countPage = ceil($this->projectRepository->countProject()[1] / 10);
+
+        return $this->render('project/list.html.twig', [
+            'projects' => $projects,
+            'countPage' => $countPage,
+            'actualyPage' => $page,
+            'url' => '/project/'
+        ]);
     }
 
     /**
@@ -65,7 +74,8 @@ class ProjectController extends AbstractController
     }
 
     /**
-     * @Route("/project/edit/{id}", name="modify_project")
+     * @Route("/project/edit/{id}", name="modify_project",methods={"GET"})
+     * @param Request $request
      * @param int $id
      * @return Response
      */
@@ -86,44 +96,49 @@ class ProjectController extends AbstractController
 
 
     /**
-     * @Route("/project/show/{id}", name="plug_project")
+     * @Route("/project/show/{id}/{page?1}", name="plug_project")
+     * @param Request $request
      * @param int $id
+     * @param int|null $page
      * @return Response
      */
-    public function showProject(Request $request, int $id): Response
+    public function showProject(Request $request, int $id, ?int $page): Response
     {
         $project = $this->projectRepository->find($id);
-        $infoPersonneOnProejcts = $this->managementWorkingHoursRepository->findValuePersonByProject($id);
+        $infoPersonneOnProejcts = $this->managementWorkingHoursRepository->findValuePersonByProject($id, $page);
         $infoCostProject = $this->managementWorkingHoursRepository->findPersonneHaveWorkByProject($id);
+        $url = '/project/show/' . $id . '/';
+        $countPage = ceil($this->managementWorkingHoursRepository->countLineByProject($id)[1] / 5);
 
         if ($project->getDeliveryDate() === null) {
             $addTime = new ManagementWorkingHours();
             $addTime->setProject($project);
             $form = $this->createForm(AddTimeInProjectType::class, $addTime);
             $form->handleRequest($request);
+
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->addTimeManager->save($addTime);
                 $this->addFlash('success', 'you have added an employee to the project');
-                return $this->render('project/show.html.twig', [
-                    'project' => $project,
-                    'infoPersonneOnProejcts' => $infoPersonneOnProejcts,
-                    'infoCostProject' => $infoCostProject,
-                    'form' => $form->createView()
-                ]);
+                return $this->redirectToRoute('plug_project', ['id' => $id]);
             }
-
+            return $this->render('project/show.html.twig', [
+                'project' => $project,
+                'infoPersonneOnProejcts' => $infoPersonneOnProejcts,
+                'infoCostProject' => $infoCostProject,
+                'form' => $form->createView(),
+                'countPage' => $countPage,
+                'actualyPage' => $page,
+                'url' => $url
+            ]);
+        } else {
 
             return $this->render('project/show.html.twig', [
                 'project' => $project,
                 'infoPersonneOnProejcts' => $infoPersonneOnProejcts,
                 'infoCostProject' => $infoCostProject,
-                'form' => $form->createView()
-            ]);
-        } else {
-            return $this->render('project/show.html.twig', [
-                'project' => $project,
-                'infoPersonneOnProejcts' => $infoPersonneOnProejcts,
-                'infoCostProject' => $infoCostProject
+                'countPage' => $countPage,
+                'actualyPage' => $page,
+                'url' => $url
             ]);
         }
 
@@ -144,29 +159,3 @@ class ProjectController extends AbstractController
     }
 
 }
-/**
- *   $hourlists = $this->managementWorkingHoursRepository->findAllValue($id);
- * $employ = $this->employRepository->find($id);
- *
- *
- * $addTime = new ManagementWorkingHours();
- * $addTime->setEmploy($hourlists[0]->getEmploy());
- * $form = $this->createForm(AddTimeType::class, $addTime);
- * $form->handleRequest($request);
- * if ($form->isSubmitted() && $form->isValid()) {
- * $this->addTimeManager->save($addTime);
- * $this->addFlash('success', 'You added time to the project');
- * return $this->render('employ/show.html.twig', [
- * 'employ' => $hourlists[0]->getEmploy(),
- * 'hourlists' => $hourlists,
- * 'form' => $form->createView()
- * ]);
- * }
- *
- * return $this->render('employ/show.html.twig', [
- * 'employ' => $employ,
- * 'hourlists' => $hourlists,
- * 'form' => $form->createView()
- * ]);
- * }
- */

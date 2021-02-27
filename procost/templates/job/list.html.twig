@@ -45,25 +45,7 @@
                 </table>
             </div>
             <hr/>
-            <nav class="float-right">
-                <ul class="pagination">
-                    <li class="page-item disabled">
-                        <span class="page-link">&laquo;</span>
-                    </li>
-                    <li class="page-item active" aria-current="page">
-                        <span class="page-link">1<span class="sr-only">(current)</span></span>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">2</a></li>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">&raquo;</a>
-                    </li>
-                </ul>
-            </nav>
+            {% include 'navigation_page.html.twig' %}
         </div>
     </main>
 {% endblock %}

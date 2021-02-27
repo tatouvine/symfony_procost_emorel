@@ -22,16 +22,22 @@ class JobRepository extends ServiceEntityRepository
         parent::__construct($registry, Job::class);
     }
 
-    public function findAllJobAndPosibilityToDelete()
+    public function findAllJobAndPosibilityToDelete(int $page)
     {
-        $conn = $this->getEntityManager()->getConnection();
+        $value = ($page - 1) * 10;
+        $sql = 'SELECT *,(SELECT COUNT(*) FROM employ WHERE job_id =Job.id) as numberJobUse
+          FROM JOB LIMIT 10 OFFSET '.$value;
 
-        $sql = '
-            SELECT *,(SELECT COUNT(*) FROM employ WHERE job_id =Job.id) as numberJobUse
-            FROM JOB 
-            ';
-        $stmt = $conn->prepare($sql);
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAllAssociative();
+        return $stmt->fetchAll();
+
+    }
+
+    public function countJob()
+    {
+        $qb = $this->createQueryBuilder('j')
+            ->select('count(j)');
+        return $qb->getQuery()->getOneOrNullResult();
     }
 }

@@ -44,7 +44,7 @@ class Employ
     private ?string $email;
     /**
      * @Assert\NotBlank(message="Ce champ ne peut être vide")
-     * @ORM\ManyToOne(targetEntity="App\Entity\Job", inversedBy="employ")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Job", inversedBy="employs")
      * @ORM\JoinColumn(nullable=false,name="job_id")
      */
     private $job;

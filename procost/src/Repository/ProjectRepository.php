@@ -64,4 +64,19 @@ class ProjectRepository extends ServiceEntityRepository
             ->where('p.deliveryDate IS NULL');
         return $qb->getQuery()->getOneOrNullResult();
     }
+
+    public function findProjectByPage(int $page)
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->setFirstResult(($page - 1)*10)
+            ->setMaxResults(10);
+        return $qb->getQuery()->getResult();
+    }
+
+    public function countProject()
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select('count(p)');
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }

@@ -19,7 +19,7 @@ class ManagementWorkingHoursRepository extends ServiceEntityRepository
         parent::__construct($registry, ManagementWorkingHours::class);
     }
 
-    public function findAllValue($id)
+    public function findAllValue($id, $page)
     {
         $qb = $this->createQueryBuilder('m')
             ->addSelect('e')
@@ -27,15 +27,19 @@ class ManagementWorkingHoursRepository extends ServiceEntityRepository
             ->leftJoin('m.employ', 'e')
             ->leftJoin('m.project', 'p')
             ->where('m.employ = :id')
-            ->setParameter('id', $id);
+            ->setParameter('id', $id)
+            ->setFirstResult(($page - 1) * 5)
+            ->setMaxResults(5);
         return $qb->getQuery()->getResult();
     }
 
-    public function findValuePersonByProject($id)
+    public function findValuePersonByProject($id, $page)
     {
         $qb = $this->createQueryBuilder('m')
             ->where('m.project = :id')
-            ->setParameter('id', $id);
+            ->setParameter('id', $id)
+            ->setFirstResult(($page - 1) * 5)
+            ->setMaxResults(5);
         return $qb->getQuery()->getResult();
     }
 
@@ -74,6 +78,24 @@ class ManagementWorkingHoursRepository extends ServiceEntityRepository
             ->groupBy('m.employ')
             ->orderBy('cost', 'DESC')
             ->setMaxResults(1);
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function countLineByProject($id)
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->select('count(m)')
+            ->where('m.project = :id')
+            ->setParameter('id', $id);
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function countLineByEmploy($id)
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->select('count(m)')
+            ->where('m.employ = :id')
+            ->setParameter('id', $id);
         return $qb->getQuery()->getOneOrNullResult();
     }
 }

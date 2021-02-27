@@ -33,7 +33,7 @@ class MainController extends AbstractController
      */
     public function index(): Response
     {
-        $findLengthEmploy = $this->employRepository->findlengthEmploys()[1];
+        $findLengthEmploy = $this->employRepository->countEmploys()[1];
         $projects = $this->projectRepository->findTotalCostByProject();
         $productionTimes = $this->managementWorkingHoursRepository->findFiveLastCreateInformation();
         $countProjectFinish = $this->projectRepository->projectCountFinish()[1];
@@ -57,19 +57,19 @@ class MainController extends AbstractController
 
     private function calculateProfitability($projects)
     {
-        $total = 0;
-        $costs = 0;
-        $allPrice = 0;
+        $nbproject = 0;
+        $nbprojectProfitability = 0;
         foreach ($projects as &$value) {
             if ($value['total'] === null) {
                 $value['total'] = 0;
             } else {
                 $value['total'] = intval($value['total']);
             }
-            $costs += $value['total'];
-            $allPrice += $value['project']->getPrice();
+            $nbproject++;
+            if ($value['project']->getPrice() < $value['total']) {
+                $nbprojectProfitability++;
+            }
         }
-        $total = ($allPrice*100)/$costs;
-        return ($total);
+        return ((($nbproject-$nbprojectProfitability) / $nbproject) * 100);
     }
 }

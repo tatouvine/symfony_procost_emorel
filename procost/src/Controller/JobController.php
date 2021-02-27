@@ -23,12 +23,20 @@ class JobController extends AbstractController
     }
 
     /**
-     * @Route("/job", name="list_job")
+     * @Route("/job/{page?1}", name="list_job",requirements={"page" = "\d+"},methods={"GET"} )
+     * @param int|null $page
+     * @return Response
      */
-    public function listJob(): Response
+    public function listJob(?int $page=1): Response
     {
-        $jobs = $this->jobRepository->findAllJobAndPosibilityToDelete();
-        return $this->render('job/list.html.twig', ['jobs' => $jobs]);
+        $jobs = $this->jobRepository->findAllJobAndPosibilityToDelete($page);
+        $countPage = ceil($this->jobRepository->countJob()[1] / 10);
+        return $this->render('job/list.html.twig', [
+            'jobs' => $jobs,
+            'countPage'=>$countPage,
+            'actualyPage' => $page,
+            'url' => '/job/'
+        ]);
     }
 
 
