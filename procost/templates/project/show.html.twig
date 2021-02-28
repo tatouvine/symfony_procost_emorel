@@ -32,7 +32,7 @@
                         </tr>
                         <tr>
                             <th>Price</th>
-                            <td>{{ project.price }}€</td>
+                            <td>{{ project.price|format_currency('EUR') }}</td>
                         </tr>
                         <tr>
                             <th>Creation Date</th>
@@ -48,7 +48,7 @@
                             {% for value in infoCostProject %}
                                 {% set totalCost=value.cost+ totalCost %}
                             {% endfor %}
-                            <td>{{ totalCost }}€</td>
+                            <td>{{ totalCost|format_currency('EUR') }}</td>
                         </tr>
                         <tr>
                             <th>Number people</th>
@@ -111,7 +111,7 @@
                                     <td>{{ infoPersonneOnProejct.employ.firstName }} </td>
                                     <td>{{ infoPersonneOnProejct.employ.lastName }}</td>
                                     <td>{{ infoPersonneOnProejct.hours }} hours</td>
-                                    <td>{{ infoPersonneOnProejct.hours*infoPersonneOnProejct.employ.hourlyCost }}€</td>
+                                    <td>{{ (infoPersonneOnProejct.hours*infoPersonneOnProejct.employ.hourlyCost)|format_currency('EUR') }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

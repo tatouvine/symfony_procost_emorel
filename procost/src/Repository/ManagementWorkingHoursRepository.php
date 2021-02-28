@@ -36,6 +36,10 @@ class ManagementWorkingHoursRepository extends ServiceEntityRepository
     public function findValuePersonByProject($id, $page)
     {
         $qb = $this->createQueryBuilder('m')
+            ->addSelect('e')
+            ->addSelect('p')
+            ->leftJoin('m.employ', 'e')
+            ->leftJoin('m.project', 'p')
             ->where('m.project = :id')
             ->setParameter('id', $id)
             ->setFirstResult(($page - 1) * 5)

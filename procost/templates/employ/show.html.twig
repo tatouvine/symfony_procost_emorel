@@ -47,7 +47,7 @@
                         <tr>
                             <th>Hourly cost
                             </td>
-                            <td>{{ employ.hourlyCost }} €</td>
+                            <td>{{ employ.hourlyCost|format_currency('EUR') }}</td>
                         </tr>
                         <tr>
                             <th>Hiring date
@@ -107,7 +107,7 @@
                                     <td>{{ hourlist.project.name }}</td>
                                     <td>{{ hourlist.hours }}</td>
                                     <td>{{ hourlist.creationDate|date("d/m/Y") }}</td>
-                                    <td>{{ hourlist.hours*hourlist.employ.hourlyCost }} €</td>
+                                    <td>{{ (hourlist.hours*hourlist.employ.hourlyCost)|format_currency('EUR') }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

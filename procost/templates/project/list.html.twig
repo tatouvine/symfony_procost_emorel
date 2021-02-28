@@ -35,7 +35,7 @@
                         <tr>
                             <td>{{ project.name }}</td>
                             <td>{{ project.description }}</td>
-                            <td>{{ project.price }} €</td>
+                            <td>{{ project.price|format_currency('EUR') }}</td>
                             <td>{{ project.creationDate|date("d/m/Y") }}</td>
                             {% if project.deliveryDate == null %}
                                 <td> No Date</td>

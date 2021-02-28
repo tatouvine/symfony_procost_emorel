@@ -36,7 +36,7 @@
                             <td>{{ employ.firstName }} {{ employ.lastName }}</td>
                             <td>{{ employ.email }}</td>
                             <td>{{ employ.job.name }}</td>
-                            <td>{{ employ.hourlyCost}} €</td>
+                            <td>{{ employ.hourlyCost|format_currency('EUR')}}</td>
                             <td>{{ employ.hiringDate|date("d/m/Y") }}</td>
                             <td>
                                 <a href="{{ asset('/employ/show/'~employ.id) }}" class="btn btn-primary btn-sm">
