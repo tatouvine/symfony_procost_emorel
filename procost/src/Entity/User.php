@@ -13,7 +13,7 @@ class User implements UserInterface
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -34,6 +34,12 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Employ",cascade={"persist","remove"})
+     * @ORM\JoinColumn(nullable=false, name="employ_id")
+     */
+    private $employ;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,8 +52,9 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->username;
+        return (string)$this->username;
     }
+
 
     public function setUsername(string $username): self
     {
@@ -80,7 +87,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -108,5 +115,16 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getEmploy(): ?Employ
+    {
+        return $this->employ;
+    }
+
+    public function setEmploy(Employ $employ): self
+    {
+        $this->employ = $employ;
+        return $this;
     }
 }

@@ -6,19 +6,29 @@ use App\Entity\Employ;
 use App\Entity\Job;
 use App\Entity\ManagementWorkingHours;
 use App\Entity\Project;
+use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 
 class AppFixtures extends Fixture
 {
     private ObjectManager $manager;
+    private UserPasswordEncoderInterface $encoder;
+
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
 
     public function load(ObjectManager $manager)
     {
         $this->manager = $manager;
         $this->createJobs();
         $this->createEmploy();
+        $this->createUsers();
         $this->createProject();
         $this->createWorkingHours();
         $manager->flush();
@@ -104,6 +114,31 @@ class AppFixtures extends Fixture
                 ->setHours($value);
             $this->manager->persist($project);
             $this->addReference(ManagementWorkingHours::class . $key, $project);
+        }
+    }
+
+    private function createUsers(): void
+    {
+        $users =
+            [
+                ["user1", "123", $this->getReference(Employ::class . "0")],
+                ["user2", "123", $this->getReference(Employ::class . "1")],
+                ["user3", "123", $this->getReference(Employ::class . "2")],
+                ["user4", "123", $this->getReference(Employ::class . "3")],
+                ["user5", "123", $this->getReference(Employ::class . "4")],
+            ];
+        foreach ($users as $key => $oneUser) {
+            $user = (new User())->setUsername($oneUser[0]);
+            $user->setPassword($this->encoder->encodePassword($user, $oneUser[1]));
+            if ($oneUser[2]->getJob()->getName() === "SEO Manager") {
+                $user->setRoles(['ROLE_ADMIN']);
+            } else {
+                $user->setRoles(['ROLE_USER']);
+            }
+            $user->setEmploy($oneUser[2]);
+            $this->manager->persist($user);
+            $this->manager->persist($user);
+            $this->addReference(User::class . $key, $user);
         }
     }
 }
