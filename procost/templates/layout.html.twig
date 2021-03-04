@@ -7,7 +7,7 @@
         <!-- Navbar Right Menu-->
         <ul class="app-nav">
             <li class="app-search">
-                <a href="login.html" class="btn btn-info">Se déconnecter</a>
+                <a href="{{ path('app_logout') }}" class="btn btn-info">Sign out</a>
             </li>
         </ul>
     </header>
@@ -17,8 +17,8 @@
         <div class="app-sidebar__user">
             <img class="app-sidebar__user-avatar" src="{{ asset('img/user.jpg') }}" alt="User Image">
             <div>
-                <p class="app-sidebar__user-name">John Doe</p>
-                <p class="app-sidebar__user-designation">Manager</p>
+                <p class="app-sidebar__user-name">{{ app.user.employ.firstName }} {{ app.user.employ.lastName }}</p>
+                <p class="app-sidebar__user-designation">{{ app.user.employ.job.name }}</p>
             </div>
         </div>
         {% set current_route = app.request.attributes.get('_route') %}

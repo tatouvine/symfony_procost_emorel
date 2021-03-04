@@ -11,15 +11,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AddTimeInProjectType extends AbstractType
+class AddTimeInProjectWithoutEmployType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('hours', TextType::class, ['label' => 'hourlyCost'])
-            ->add('employ', EntityType::class, [
-                'class' => Employ::class,
-                'choice_label' => 'lastName',
-            ]);
+        $builder->add('hours', TextType::class, ['label' => 'hourlyCost']);
     }
 
     public function configureOptions(OptionsResolver $resolver)

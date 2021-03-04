@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\EmployRepository;
 use App\Repository\JobRepository;
 use App\Repository\ManagementWorkingHoursRepository;
@@ -33,26 +34,29 @@ class MainController extends AbstractController
      */
     public function index(): Response
     {
-        $findLengthEmploy = $this->employRepository->countEmploys()[1];
-        $projects = $this->projectRepository->findTotalCostByProject();
-        $productionTimes = $this->managementWorkingHoursRepository->findFiveLastCreateInformation();
-        $countProjectFinish = $this->projectRepository->projectCountFinish()[1];
-        $countProjectNotFinish = $this->projectRepository->projectCountNotFinish()[1];
-        $countHours = $this->managementWorkingHoursRepository->countHours();
-        $bestEmploy = $this->managementWorkingHoursRepository->bestEmploy();
-        $deliveryRate = ($countProjectFinish / ($countProjectFinish + $countProjectNotFinish)) * 100;
-        $profitable = $this->calculateProfitability($this->projectRepository->projectListFinish());
-        return $this->render('main/home.html.twig', [
-            'findLengthEmploy' => $findLengthEmploy,
-            'projects' => $projects,
-            'productionTimes' => $productionTimes,
-            'countProjectFinish' => $countProjectFinish,
-            'countProjectNotFinish' => $countProjectNotFinish,
-            'countHours' => $countHours,
-            'bestEmploy' => $bestEmploy,
-            'deliveryRate' => $deliveryRate,
-            'profitable' => $profitable
-        ]);
+        if ($this->getUser() instanceof User) {
+            $findLengthEmploy = $this->employRepository->countEmploys()[1];
+            $projects = $this->projectRepository->findTotalCostByProject();
+            $productionTimes = $this->managementWorkingHoursRepository->findFiveLastCreateInformation();
+            $countProjectFinish = $this->projectRepository->projectCountFinish()[1];
+            $countProjectNotFinish = $this->projectRepository->projectCountNotFinish()[1];
+            $countHours = $this->managementWorkingHoursRepository->countHours();
+            $bestEmploy = $this->managementWorkingHoursRepository->bestEmploy();
+            $deliveryRate = ($countProjectFinish / ($countProjectFinish + $countProjectNotFinish)) * 100;
+            $profitable = $this->calculateProfitability($this->projectRepository->projectListFinish());
+            return $this->render('main/home.html.twig', [
+                'findLengthEmploy' => $findLengthEmploy,
+                'projects' => $projects,
+                'productionTimes' => $productionTimes,
+                'countProjectFinish' => $countProjectFinish,
+                'countProjectNotFinish' => $countProjectNotFinish,
+                'countHours' => $countHours,
+                'bestEmploy' => $bestEmploy,
+                'deliveryRate' => $deliveryRate,
+                'profitable' => $profitable
+            ]);
+        }
+        return $this->redirectToRoute('app_login');
     }
 
     private function calculateProfitability($projects)
@@ -70,6 +74,9 @@ class MainController extends AbstractController
                 $nbprojectProfitability++;
             }
         }
-        return ((($nbproject-$nbprojectProfitability) / $nbproject) * 100);
+        if ($nbproject === 0) {
+            return 0;
+        }
+        return ((($nbproject - $nbprojectProfitability) / $nbproject) * 100);
     }
 }

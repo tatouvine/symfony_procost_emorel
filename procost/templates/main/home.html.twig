@@ -81,7 +81,8 @@
                             <div class="card-header text-center text-uppercase">Best employer</div>
                             <div class="card-body">
                                 <div class="text-center">
-                                    <img src="img/ui-zac.jpg" class="rounded-circle" width="58">
+                                    <img src="{{ asset('img/ui-zac.jpg') }}" class="rounded-circle" width="58"
+                                         alt="profile">
                                     <p class="mt-2">
                                         <strong>{{ bestEmploy.value.employ.firstName }} {{ bestEmploy.value.employ.lastName }}</strong>
                                     </p>
@@ -156,4 +157,10 @@
             </div>
         </div>
     </main>
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    <script> var ratioData = [{{ profitable|number_format(2, '.', ',') }}, 100-{{ profitable|number_format(2, '.', ',') }}];
+        var deliveredData = [{{ deliveryRate|number_format(2, '.', ',') }}, 100-{{ deliveryRate|number_format(2, '.', ',') }}]; </script>
+    <script src="{{ asset('js/dashboard.js') }}"></script>
 {% endblock %}

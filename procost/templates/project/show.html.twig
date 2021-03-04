@@ -1,5 +1,5 @@
 {% extends 'layout.html.twig' %}
-{% block title %}Plug Employ{% endblock %}
+{% block title %}Show Employ{% endblock %}
 {% block content %}
     <main class="app-content">
         <div class="app-title">
@@ -57,23 +57,28 @@
                         </tbody>
                     </table>
                     {% if form is defined %}
-                        <a href="{{ asset('/project/edit/'~project.id) }}" class="btn btn-info">
-                            <i class="fa fa-pencil"></i>Modify
-                        </a>
+                        {% if app.user.roles[0] == "ROLE_ADMIN" %}
+                            <a href="{{ asset('/project/edit/'~project.id) }}" class="btn btn-info">
+                                <i class="fa fa-pencil"></i>Modify
+                            </a>
+                        {% endif %}
                     {% endif %}
                 </div>
                 {% if form is defined %}
                     <div class="tile">
                         <h3 class="title-title mb-4">Add time</h3>
                         {{ form_start(form) }}
-                        <div class="form-group row">
-                            <label for="select-projects" class="control-label col-md-6">Employ concerned</label>
-                            <div class="col-md-6">
-                                {{ form_errors(form.employ) }}
-                                {{ form_label(form.employ) }}
-                                {{ form_widget(form.employ,{'attr':{'class':'form-control','placeholder':form.employ.vars.label}}) }}
+                        {% if app.user.roles[0] == "ROLE_ADMIN" %}
+                            <div class="form-group row">
+                                <label for="select-projects" class="control-label col-md-6">Employ concerned</label>
+                                <div class="col-md-6">
+                                    {{ form_errors(form.employ) }}
+                                    {{ form_label(form.employ) }}
+                                    {{ form_widget(form.employ,{'attr':{'class':'form-control','placeholder':form.employ.vars.label}}) }}
+                                </div>
                             </div>
-                        </div>
+                        {% endif %}
+
                         <div class="form-group row">
                             <label for="days-count" class="control-label col-md-6">Number of hours</label>
                             <div class="col-md-6">
