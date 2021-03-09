@@ -46,9 +46,9 @@ class ProjectRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('p')
             ->select('p as project')
-            ->leftJoin('p.hourList', 'pt')
-            ->leftJoin('pt.employ', 'e')
-            ->addSelect('e,pt ,sum(pt.hours*e.hourlyCost) as total')
+            ->leftJoin('p.hourList', 'm')
+            ->leftJoin('m.employ', 'e')
+            ->addSelect('e,m ,sum(m.hours*e.hourlyCost) as total')
             ->where('p.deliveryDate IS NOT NULL')
             ->groupBy('p.id')
             ->orderBy('p.creationDate', 'DESC')

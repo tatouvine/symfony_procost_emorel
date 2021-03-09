@@ -86,7 +86,7 @@ class ProjectController extends AbstractController
     }
 
     /**
-     * @Route("/project/edit/{id}", name="modify_project",methods={"GET"})
+     * @Route("/project/edit/{id}", name="modify_project",methods={"POST"})
      * @param Request $request
      * @param int $id
      * @return Response
