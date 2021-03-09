@@ -29,6 +29,7 @@ class ManagementWorkingHoursRepository extends ServiceEntityRepository
             ->where('m.employ = :id')
             ->setParameter('id', $id)
             ->setFirstResult(($page - 1) * 5)
+            ->orderBy('m.creationDate','DESC')
             ->setMaxResults(5);
         return $qb->getQuery()->getResult();
     }
@@ -42,6 +43,7 @@ class ManagementWorkingHoursRepository extends ServiceEntityRepository
             ->leftJoin('m.project', 'p')
             ->where('m.project = :id')
             ->setParameter('id', $id)
+            ->orderBy('m.creationDate','DESC')
             ->setFirstResult(($page - 1) * 5)
             ->setMaxResults(5);
         return $qb->getQuery()->getResult();

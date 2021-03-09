@@ -148,14 +148,7 @@ class EmployController extends AbstractController
 
                     $this->addTimeManager->save($addTime);
                     $this->addFlash('success', 'You added time to the project');
-                    return $this->render('employ/show.html.twig', [
-                        'employ' => $employ,
-                        'hourlists' => $hourlists,
-                        'form' => $form->createView(),
-                        'countPage' => $countPage,
-                        'actualyPage' => $page,
-                        'url' => $url
-                    ]);
+                    return $this->redirectToRoute('show_employ', ['id' => $id]);
                 }
                 return $this->render('employ/show.html.twig', [
                     'employ' => $employ,
