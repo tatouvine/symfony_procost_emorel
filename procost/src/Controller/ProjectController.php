@@ -86,7 +86,7 @@ class ProjectController extends AbstractController
     }
 
     /**
-     * @Route("/project/edit/{id}", name="modify_project",methods={"POST"})
+     * @Route("/project/edit/{id}", name="modify_project",methods={"GET","POST"})
      * @param Request $request
      * @param int $id
      * @return Response
@@ -190,5 +190,4 @@ class ProjectController extends AbstractController
         }
         return $this->redirectToRoute('app_login');
     }
-
 }
