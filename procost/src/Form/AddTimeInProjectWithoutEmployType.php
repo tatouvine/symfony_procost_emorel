@@ -15,7 +15,7 @@ class AddTimeInProjectWithoutEmployType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('hours', TextType::class, ['label' => 'hourlyCost']);
+        $builder->add('hours', TextType::class, ['label' => 'Hourly Cost']);
     }
 
     public function configureOptions(OptionsResolver $resolver)

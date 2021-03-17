@@ -13,7 +13,7 @@ class JobType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, ['label' => 'name']);
+            ->add('name', TextType::class, ['label' => 'Name']);
     }
 
     public function configureOptions(OptionsResolver $resolver)

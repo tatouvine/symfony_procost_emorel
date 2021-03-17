@@ -78,7 +78,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="card">
-                            <div class="card-header text-center text-uppercase">Best employer</div>
+                            <div class="card-header text-center text-uppercase">Best employee</div>
                             <div class="card-body">
                                 <div class="text-center">
                                     <img src="{{ asset('img/ui-zac.jpg') }}" class="rounded-circle" width="58"
@@ -103,7 +103,7 @@
                 </div>
                 <hr>
                 <div class="tile table-responsive">
-                    <h2 class="tile-title">The latest projects</h2>
+                    <h2 class="tile-title">Latest projects</h2>
                     <table class="table table-hover table-striped table-sm">
                         <thead>
                         <tr>
@@ -129,9 +129,9 @@
                                 {% endif %}
                                 <th>
                                     {% if project.project.deliveryDate == null %}
-                                        <span class="badge badge-danger">NON</span>
+                                        <span class="badge badge-danger">NO</span>
                                     {% else %}
-                                        <span class="badge badge-success">OUI</span>
+                                        <span class="badge badge-success">YES</span>
                                     {% endif %}
                                 </th>
                             </tr>
@@ -149,7 +149,7 @@
                                 <a href="{{ asset('/employ/show/'~productionTime.employ.id) }}">{{ productionTime.employ.firstName }} {{ productionTime.employ.lastName }}</a>
                                 worked on <a
                                         href="{{ asset('/project/show/'~productionTime.project.id) }}">{{ productionTime.project.name }}</a>
-                                <div class="text-muted font-italic text-right">{{ productionTime.hours }} heures</div>
+                                <div class="text-muted font-italic text-right">{{ productionTime.hours }} hours</div>
                             </li>
                         {% endfor %}
                     </ul>

@@ -19,14 +19,14 @@ class EmployType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstName', TextType::class, ['label' => 'firstName'])
-            ->add('lastName', TextType::class, ['label' => 'lastName'])
-            ->add('email', EmailType::class, ['label' => 'email'])
+            ->add('firstName', TextType::class, ['label' => 'First Name'])
+            ->add('lastName', TextType::class, ['label' => 'Last Name'])
+            ->add('email', EmailType::class, ['label' => 'Email'])
             ->add('job', EntityType::class, [
                 'class'=>Job::class,
                 'choice_label'=>'name',
             ])
-            ->add('hourlyCost', TextType::class, ['label' => 'hourlyCost'])
+            ->add('hourlyCost', TextType::class, ['label' => 'Hourly Cost'])
             ->add('hiringDate', DateType::class, [
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',

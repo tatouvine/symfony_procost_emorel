@@ -24,7 +24,7 @@ class AddTimeType extends AbstractType
                 },
                 'choice_label' => 'name',
             ])
-            ->add('hours', TextType::class, ['label' => 'hourlyCost']);
+            ->add('hours', TextType::class, ['label' => 'Hourly Cost']);
     }
 
     public function configureOptions(OptionsResolver $resolver)
